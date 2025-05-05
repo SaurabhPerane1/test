@@ -1,0 +1,22 @@
+import multiprocessing
+from mpi4py import MPI
+
+def partial_sum(data_chunk):
+    local_sum = sum(data_chunk)
+    print(f"Process {multiprocessing.current_process().name} computed partial sum = {local_sum}")
+    return local_sum
+
+if __name__ == "__main__":
+    N = 16
+    data = [3, 8, 2, 5, 9, 1, 4, 7, 6, 0, 3, 2, 8, 5, 1, 4]
+
+    num_processes = 4
+    chunk_size = N // num_processes
+
+    chunks = [data[i * chunk_size:(i + 1) * chunk_size] for i in range(num_processes)]
+
+    with multiprocessing.Pool(processes=num_processes) as pool:
+        partial_sums = pool.map(partial_sum, chunks)
+
+    total_sum = sum(partial_sums)
+    print("Total sum of array =", total_sum)

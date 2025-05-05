@@ -1,0 +1,23 @@
+import java.rmi.Naming;
+import java.util.Scanner;
+
+public class Client {
+    public static void main(String[] args) {
+        try {
+            ServerInterface circle = (ServerInterface) Naming.lookup("rmi://localhost/CircleService");
+
+            Scanner scanner = new Scanner(System.in);
+            System.out.print("Enter radius of the circle: ");
+            double radius = scanner.nextDouble();
+
+            double area = circle.getArea(radius);
+            double perimeter = circle.getPerimeter(radius);
+
+            System.out.println("Area: " + area);
+            System.out.println("Perimeter: " + perimeter);
+            scanner.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}

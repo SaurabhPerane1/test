@@ -1,0 +1,45 @@
+import java.util.Scanner;
+
+public class TokenRingMutualExclusion {
+    public static void main(String[] args){
+        int n, k, sender=0, receiver, token=0, message;
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter Number of Nodes: ");
+        n = scanner.nextInt();
+        for(int i=0; i<n; i++){
+            System.out.print(" " + i);
+        }
+        System.out.print(" 0");
+        System.out.println("");
+        do{
+            System.out.print("Enter Sender Nodes: ");
+            sender = scanner.nextInt();
+            System.out.print("Enter Receiver Nodes: ");
+            receiver = scanner.nextInt();
+            System.out.print("Enter Message: ");
+            message = scanner.nextInt();
+            System.out.print("Token Passing: ");
+            while(token != sender){
+                System.out.print(token + " --> ");
+                token = (token+1)%n;
+            }
+            System.out.print(sender +"\n");
+            int dataSender = sender;
+            while(dataSender != receiver){
+                if(dataSender < receiver){
+                    System.out.println("Data Forwarded from " + dataSender);
+                    dataSender += 1;
+                }
+                else{
+                    System.out.println("Data Forwarded from " + dataSender);
+                    dataSender -= 1;
+                }
+            }
+            System.out.println("\n Your message " + message + " successfully sent to receiver node " + receiver);
+            System.out.print("\nEnter 1 to continue and 0 to exit: ");
+            k = scanner.nextInt();
+            System.out.println("\n");
+        }while(k != 0);
+        scanner.close();
+    }
+}

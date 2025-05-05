@@ -1,0 +1,26 @@
+#server.py
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+@app.route('/reverse', methods=['POST'])
+def reverse_string():
+    data = request.get_json()
+    original = data.get('text', '')
+    reversed_text = original[::-1]
+    return jsonify(reversed=reversed_text)
+
+if __name__ == '__main__':
+    app.run(port=5000)
+
+
+#client.py
+import requests
+
+text_to_reverse = input("Enter Your String: ")
+try:
+    response = requests.post('http://localhost:5000/reverse', json={'text': text_to_reverse})
+    print("Client connects to server successfully")
+    print("Reversed:", response.json()['reversed'])
+except requests.exceptions.ConnectionError:
+    print("Error:Could not connect to the server!")

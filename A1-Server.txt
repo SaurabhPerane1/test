@@ -1,0 +1,12 @@
+import java.rmi.Naming;
+
+public class Server {
+    public static void main(String[] args) {
+        try {
+            Naming.rebind("rmi://localhost/CircleService", new ServerImplementation());
+            System.out.println("Circle RMI Server is ready.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}

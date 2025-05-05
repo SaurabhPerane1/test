@@ -1,0 +1,7 @@
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+
+public interface ServerInterface extends Remote {
+    double getArea(double radius) throws RemoteException;
+    double getPerimeter(double radius) throws RemoteException;
+}

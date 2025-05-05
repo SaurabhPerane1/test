@@ -1,0 +1,62 @@
+import java.util.Scanner;
+
+class Rr{
+    public int index;
+    public int id;
+    boolean isAlive;
+    String coordinator;
+}
+public class ring{ 
+    public static void main(String[] args){ 
+        System.out.println("-----------Ring Election Algo-----------");
+        int n, choice;
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter Number of Processes: ");
+        n = sc.nextInt();
+        Rr pr[] = new Rr[n+1];
+        for(int i=1; i<=n; i++){
+            pr[i] = new Rr(); 
+            pr[i].index = i; 
+            System.out.print("Enter ID of process " + i + ": ");
+            pr[i].id = sc.nextInt(); 
+        }
+        for(int i = 1; i <= n; i++){
+            for(int j = 1; j <= n - i; j++){
+                if(pr[j].id > pr[j + 1].id){
+                    Rr temp = pr[j];
+                    pr[j] = pr[j + 1];
+                    pr[j + 1] = temp;
+                }
+            }
+        }
+
+        for(int i=1; i<=n; i++){
+            System.out.println("id: " + pr[i].id + " process p" + pr[i].index);
+            pr[i].isAlive = true;
+        }
+        System.out.print("id: " + pr[1].id + " process p" + pr[1].index);
+        System.out.println("");
+        System.out.println("Max id: " + pr[n].id + " and max process is: "+pr[pr[n].id].index);
+        System.out.println("");
+        do{
+            System.out.println("1. To display coordinator ");
+            System.out.println("2. Exit ");
+            System.out.print("Enter choice: ");
+            choice = sc.nextInt();
+            switch(choice){
+                case 1:
+                {
+                    for(int i=1; i<=pr[n].id; i++){
+                        System.out.println("Message forwarded from p" + pr[pr[i].id].index);
+                    }
+                    System.out.println("Coordinator process is: p" + pr[pr[n].id].index + " with id: " + pr[n].id);
+                }
+                case 2:
+                {
+                    System.out.println("Exiting...");
+                }
+            }
+        }while(choice != 2);
+        sc.close();
+    }
+}

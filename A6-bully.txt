@@ -1,0 +1,82 @@
+import java.util.Scanner;
+
+public class bully{
+    static boolean[] isAlive;
+    static int coordinator;
+    public static void main(String[] args){
+        int n, up, message, down, choice; 
+        Scanner sc = new Scanner(System.in);
+        System.out.println("----------Bully Algorithm------------");
+        System.out.print("Enter Number of processes: ");
+        n = sc.nextInt();
+        for(int i=1; i<=n; i++){
+            System.out.print(" p" + i + " ");
+        }
+        isAlive = new boolean[n + 1];
+        for(int i=1; i<=n; i++){
+            isAlive[i] = true;
+        }
+        do{
+            System.out.println("\n---------------------------");
+            System.out.println("\n1.Up a process: ");
+            System.out.println("2.Down a process: ");
+            System.out.println("3.Send a message: ");
+            System.out.println("4.Check Co-ordinator: ");
+            System.out.println("5.Exit");
+            System.out.print("Enter your choice: ");
+            choice = sc.nextInt();
+            switch(choice){
+                case 1:
+                {
+                    System.out.print("Enter process to go up: ");
+                    up = sc.nextInt();
+                    if(isAlive[up]){
+                        System.out.println("Process " + up + " is already up");
+                    }
+                    else{
+                        isAlive[up] = true;
+                        System.out.println("Process "+ up +" is now up");
+                    }
+                    break;
+                }
+                case 2:
+                {
+                    System.out.print("Enter process to go down: ");
+                    down = sc.nextInt();
+                    if(!isAlive[down]){
+                        System.out.println("Process " + down + " is already down");
+                    }
+                    else{
+                        isAlive[down] = false;
+                        System.out.println("Process "+ down +" is now down");
+                    }
+                    break;
+                }
+                case 3:
+                {
+                    System.out.print("Enter Message: ");
+                    message = sc.nextInt();
+                    System.out.print("\nMessage " + message + " is Sending... ");
+                    break;
+                }
+                case 4:
+                {
+                    for(int i=n; i>=1; i--){
+                        if(isAlive[i]){
+                            coordinator = i;
+                            System.out.println("Process " + coordinator + " is Co-ordinator.");
+                            break;
+                        }
+                    }
+                    break;
+                }
+                case 5:
+                {
+                    System.out.println("Exiting....");
+                    break;
+                }
+            }
+        }while(choice != 5);
+        sc.close();
+    }
+}
