@@ -1,1 +1,34 @@
+from mpi4py import MPI
+
+def main():
+    comm = MPI.COMM_WORLD
+    rank = comm.Get_rank()
+
+    numbers = None
+    chunk = None
+
+    if rank == 0:
+        numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+
+        chunk1 = numbers[0:4]
+        chunk2 = numbers[4:8]
+        chunk3 = numbers[8:12]
+        chunk4 = numbers[12:16]
+
+        chunks = [chunk1, chunk2, chunk3, chunk4]
+    else:
+        chunks = None
+
+    chunk = comm.scatter(chunks, root=0)
+
+    partial = sum(chunk)
+    print(f"Process {rank}: chunk={chunk}, partial_sum={partial}")
+
+    total_sum = comm.reduce(partial, op=MPI.SUM, root=0)
+
+    if rank == 0:
+        print(f"\nTotal Sum is: {total_sum}")
+
+if __name__ == "__main__":
+    main()
 
