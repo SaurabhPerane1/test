@@ -1,0 +1,38 @@
+import multiprocessing 
+from mpi4py import MPI
+
+def partial_sum(numbers):
+    total = sum(num for num in numbers)
+    print(f"Partial Sum: {numbers=}: {total}")
+
+if __name__ == "__main__":
+    numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+
+    chunk1 = numbers[0:4]
+    chunk2 = numbers[4:8]
+    chunk3 = numbers[8:12]
+    chunk4 = numbers[12:16]
+
+    process1 = multiprocessing.Process(target=partial_sum, args=(chunk1,))
+    process2 = multiprocessing.Process(target=partial_sum, args=(chunk2,))
+    process3 = multiprocessing.Process(target=partial_sum, args=(chunk3,))
+    process4 = multiprocessing.Process(target=partial_sum, args=(chunk4,))
+
+    print("Process 1: ")
+    process1.start()
+    process1.join()
+    print("Process 2: ")
+    process2.start()
+    process2.join()
+    print("Process 3: ")
+    process3.start()
+    process3.join()
+    print("Process 4: ")
+    process4.start()
+    process4.join()
+
+    total_sum = 0
+
+    for i, v in enumerate(numbers, start=1):
+        total_sum += i
+    print(f"Total Sum is : {total_sum}")
